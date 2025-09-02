@@ -7,7 +7,7 @@ export default function TodoApp() {
     const saved = localStorage.getItem("todos");
     return saved ? JSON.parse(saved) : [];
   });
-
+ 
   const uniqueId = useId(); // base ID tied to this component instance
 
   const addTodo = (text) => {
@@ -27,6 +27,15 @@ export default function TodoApp() {
     setTodos(todos.filter((t) => t.id !== id));
   };
 
+  const editTodo = (id, newText) => {
+    if (!newText.trim()) return;
+    setTodos(
+      todos.map((t) =>
+        t.id === id ? { ...t, text: newText } : t
+      )
+    );
+  };
+
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
@@ -35,7 +44,12 @@ export default function TodoApp() {
     <div className="todo-app">
       <h1>Todo App</h1>
       <TodoInput onAdd={addTodo} />
-      <TodoList todos={todos} onToggle={toggleTodo} onDelete={deleteTodo} />
+      <TodoList 
+        todos={todos} 
+        onToggle={toggleTodo} 
+        onDelete={deleteTodo} 
+        onEdit={editTodo} 
+      />
     </div>
   );
 }

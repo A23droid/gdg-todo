@@ -1,6 +1,6 @@
 import TodoItem from "./TodoItem";
 
-export default function TodoList({ todos, onToggle, onDelete }) {
+export default function TodoList({ todos, onToggle, onDelete, onEdit }) {
   if (todos.length === 0) {
     return <p className="empty">No tasks yet! Are you that free? :D</p>;
   }
@@ -13,6 +13,7 @@ export default function TodoList({ todos, onToggle, onDelete }) {
           todo={todo}
           onToggle={onToggle}
           onDelete={onDelete}
+          onEdit={onEdit}   
         />
       ))}
     </ul>
