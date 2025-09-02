@@ -1,14 +1,9 @@
-import { useState } from 'react'
-import './App.css'
+import TodoApp from "./components/TodoApp";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-      
-    </>
-  )
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <TodoApp />
+    </div>
+  );
 }
-
-export default App
