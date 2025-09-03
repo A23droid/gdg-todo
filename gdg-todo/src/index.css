@@ -156,7 +156,6 @@ body[data-theme="dark"] .todo-item input {
   color: #fff;
 }
 
-/* ===== Filter Buttons ===== */
 .todo-filters {
   display: flex;
   gap: 8px;
@@ -199,7 +198,6 @@ body[data-theme="dark"] .todo-filters button:hover {
   border-color: #007bff;
 }
 
-
 .theme-toggle {
   background: transparent;
   border: 2px solid currentColor;
@@ -224,6 +222,19 @@ body[data-theme="dark"] .theme-toggle:hover {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+}
+
+.todo-error {
+  color: #ff5555;
+  font-size: 0.85rem;
+  margin-bottom: 0.8rem;
+}
+
+.todo-empty {
+  color: #999;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  text-align: center;
 }
 
 /* Responsive */

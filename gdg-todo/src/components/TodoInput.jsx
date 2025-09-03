@@ -1,24 +1,28 @@
 import { useState } from "react";
 
-export default function TodoInput({ onAdd }) {
-  const [task, setTask] = useState("");
+export default function TodoInput({ onAdd, setError }) {
+  const [text, setText] = useState("");
 
-  const handleAdd = () => {
-    if (task.trim()) {
-      onAdd(task);
-      setTask("");
-    }
+  const handleChange = (e) => {
+    setText(e.target.value);
+    setError(""); 
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onAdd(text);
+    setText(""); 
   };
 
   return (
-    <div className="todo-input">
+    <form onSubmit={handleSubmit} className="todo-input">
       <input
         type="text"
-        value={task}
-        onChange={(e) => setTask(e.target.value)}
-        placeholder="Add a task..."
+        value={text}
+        onChange={handleChange}
+        placeholder="Enter a task..."
       />
-      <button onClick={handleAdd}>Add</button>
-    </div>
+      <button type="submit">Add</button>
+    </form>
   );
 }

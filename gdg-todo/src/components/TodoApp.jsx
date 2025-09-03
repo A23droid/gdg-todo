@@ -13,14 +13,27 @@ export default function TodoApp() {
     return localStorage.getItem("theme") || "light";
   });
 
+  const [error, setError] = useState(""); 
   const uniqueId = useId();
 
   const addTodo = (text) => {
-    if (!text.trim()) return;
-    setTodos([...todos, { id: uniqueId + "-" + Math.random(), text, done: false }]);
+    if (!text.trim()) {
+      setError("Task cannot be empty!");
+      return;
+    }
+    if (todos.some((t) => t.text.toLowerCase() === text.trim().toLowerCase())) {
+      setError("Task already exists!");
+      return;
+    }
+    setTodos([{ id: uniqueId + "-" + Math.random(), text, done: false }, ...todos]);
+    setError("");
   };
 
   const toggleTodo = (id) => {
+    if (!todos.find((t) => t.id === id)) {
+      console.warn("Tried toggling a non-existent todo.");
+      return;
+    }
     setTodos(
       todos.map((t) =>
         t.id === id ? { ...t, done: !t.done } : t
@@ -29,23 +42,34 @@ export default function TodoApp() {
   };
 
   const deleteTodo = (id) => {
+    if (!todos.find((t) => t.id === id)) {
+      console.warn("Tried deleting a non-existent todo.");
+      return;
+    }
     setTodos(todos.filter((t) => t.id !== id));
   };
 
   const editTodo = (id, newText) => {
-    if (!newText.trim()) return;
+    if (!newText.trim()) {
+      setError("Task cannot be empty!");
+      return;
+    }
+    if (todos.some((t) => t.text.toLowerCase() === newText.trim().toLowerCase() && t.id !== id)) {
+      setError("Task already exists!");
+      return;
+    }
     setTodos(
       todos.map((t) =>
         t.id === id ? { ...t, text: newText } : t
       )
     );
+    setError("");
   };
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
-  // Save theme in localStorage + update body class
   useEffect(() => {
     document.body.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
@@ -54,8 +78,14 @@ export default function TodoApp() {
   const filteredTodos = todos.filter((t) => {
     if (filter === "completed") return t.done;
     if (filter === "pending") return !t.done;
-    return true; // all
+    return true;
   });
+
+  const emptyMessage = {
+    all: "No tasks yet. Are you that free? :D",
+    completed: "Nothing completed yet!",
+    pending: "Looks like someone was being productive ;)",
+  };
 
   return (
     <div className="todo-app">
@@ -69,7 +99,9 @@ export default function TodoApp() {
         </button>
       </div>
 
-      <TodoInput onAdd={addTodo} />
+      {error && <p className="todo-error">{error}</p>}
+
+      <TodoInput onAdd={addTodo} setError={setError} />
 
       <div className="todo-filters">
         <button
@@ -92,12 +124,16 @@ export default function TodoApp() {
         </button>
       </div>
 
-      <TodoList 
-        todos={filteredTodos} 
-        onToggle={toggleTodo} 
-        onDelete={deleteTodo} 
-        onEdit={editTodo} 
-      />
+      {filteredTodos.length === 0 ? (
+        <p className="todo-empty">{emptyMessage[filter]}</p>
+      ) : (
+        <TodoList 
+          todos={filteredTodos} 
+          onToggle={toggleTodo} 
+          onDelete={deleteTodo} 
+          onEdit={editTodo} 
+        />
+      )}
     </div>
   );
 }
