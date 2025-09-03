@@ -7,8 +7,9 @@ export default function TodoApp() {
     const saved = localStorage.getItem("todos");
     return saved ? JSON.parse(saved) : [];
   });
- 
-  const uniqueId = useId(); // base ID tied to this component instance
+
+  const [filter, setFilter] = useState("all");
+  const uniqueId = useId();
 
   const addTodo = (text) => {
     if (!text.trim()) return;
@@ -40,12 +41,41 @@ export default function TodoApp() {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
+  // Apply filtering before rendring
+  const filteredTodos = todos.filter((t) => {
+    if (filter === "completed") return t.done;
+    if (filter === "pending") return !t.done;
+    return true; // all
+  });
+
   return (
     <div className="todo-app">
       <h1>Todo App</h1>
       <TodoInput onAdd={addTodo} />
+
+      <div className="todo-filters">
+        <button
+          onClick={() => setFilter("all")}
+          className={filter === "all" ? "active" : ""}
+        >
+          All
+        </button>
+        <button
+          onClick={() => setFilter("completed")}
+          className={filter === "completed" ? "active" : ""}
+        >
+          Completed
+        </button>
+        <button
+          onClick={() => setFilter("pending")}
+          className={filter === "pending" ? "active" : ""}
+        >
+          Pending
+        </button>
+      </div>
+
       <TodoList 
-        todos={todos} 
+        todos={filteredTodos} 
         onToggle={toggleTodo} 
         onDelete={deleteTodo} 
         onEdit={editTodo} 

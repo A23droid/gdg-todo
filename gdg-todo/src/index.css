@@ -102,6 +102,33 @@ body {
   color: #fff;
 }
 
+.todo-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.todo-filters button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+  font-weight: normal;
+  transition: all 0.2s ease;
+}
+
+.todo-filters button:hover {
+  background-color: #f2f2f2;
+}
+
+.todo-filters button.active {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  border-color: #007bff;
+}
+
 /* Responsive */
 @media (max-width: 480px) {
   body {
@@ -137,3 +164,5 @@ body {
     padding: 0.3rem 0.5rem;
   }
 }
+
+
