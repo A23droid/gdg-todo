@@ -1,20 +1,40 @@
+/* Base (Dark mode default) */
 body {
   font-family: system-ui, sans-serif;
-  background-color: #1e1e1e; /* dark mode */
-  color: #f0f0f0;
   margin: 0;
   padding: 2rem;
   display: flex;
   justify-content: center;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Light Theme */
+body[data-theme="light"] {
+  background-color: #f9fafb;
+  color: #111827;
+}
+
+/* Dark Theme */
+body[data-theme="dark"] {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
 }
 
 .todo-app {
-  background: #2a2a2a;
   padding: 1.5rem;
   border-radius: 12px;
   max-width: 400px;
   width: 100%;
   box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+body[data-theme="light"] .todo-app {
+  background: #fff;
+}
+
+body[data-theme="dark"] .todo-app {
+  background: #2a2a2a;
 }
 
 .todo-input {
@@ -28,9 +48,18 @@ body {
   padding: 0.6rem 0.8rem;
   border: none;
   border-radius: 8px;
+  font-size: 0.95rem;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+body[data-theme="light"] .todo-input input {
+  background: #f3f4f6;
+  color: #111;
+}
+
+body[data-theme="dark"] .todo-input input {
   background: #3a3a3a;
   color: #fff;
-  font-size: 0.95rem;
 }
 
 .todo-input input:focus {
@@ -62,11 +91,20 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #333;
   padding: 0.6rem 0.8rem;
   border-radius: 8px;
   margin-bottom: 0.5rem;
-  transition: background 0.2s;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+body[data-theme="light"] .todo-item {
+  background: #f3f4f6;
+  color: #111;
+}
+
+body[data-theme="dark"] .todo-item {
+  background: #333;
+  color: #fff;
 }
 
 .todo-item.done span {
@@ -82,11 +120,18 @@ body {
 .todo-item button {
   background: transparent;
   border: none;
-  color: #bbb;
   cursor: pointer;
   font-size: 1rem;
   margin-left: 0.5rem;
   transition: color 0.2s;
+}
+
+body[data-theme="light"] .todo-item button {
+  color: #666;
+}
+
+body[data-theme="dark"] .todo-item button {
+  color: #bbb;
 }
 
 .todo-item button:hover {
@@ -98,10 +143,20 @@ body {
   padding: 0.4rem 0.6rem;
   border: none;
   border-radius: 6px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+body[data-theme="light"] .todo-item input {
+  background: #e5e7eb;
+  color: #111;
+}
+
+body[data-theme="dark"] .todo-item input {
   background: #444;
   color: #fff;
 }
 
+/* ===== Filter Buttons ===== */
 .todo-filters {
   display: flex;
   gap: 8px;
@@ -109,24 +164,66 @@ body {
 }
 
 .todo-filters button {
+  flex: 1;
   padding: 6px 12px;
   border-radius: 6px;
   border: 1px solid #ccc;
-  background-color: white;
   cursor: pointer;
   font-weight: normal;
   transition: all 0.2s ease;
 }
 
+body[data-theme="light"] .todo-filters button {
+  background: #fff;
+  color: #111;
+}
+
+body[data-theme="dark"] .todo-filters button {
+  background: #444;
+  color: #eee;
+  border-color: #666;
+}
+
 .todo-filters button:hover {
-  background-color: #f2f2f2;
+  background-color: #e5e7eb;
+}
+
+body[data-theme="dark"] .todo-filters button:hover {
+  background-color: #555;
 }
 
 .todo-filters button.active {
   background-color: #007bff;
-  color: white;
+  color: #fff; /* always White on BLue */
   font-weight: bold;
   border-color: #007bff;
+}
+
+
+.theme-toggle {
+  background: transparent;
+  border: 2px solid currentColor;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-left: 1rem;
+  transition: background 0.2s ease;
+}
+
+body[data-theme="light"] .theme-toggle:hover {
+  background: #f3f4f6;
+}
+
+body[data-theme="dark"] .theme-toggle:hover {
+  background: #374151;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
 /* Responsive */
@@ -164,5 +261,3 @@ body {
     padding: 0.3rem 0.5rem;
   }
 }
-
-

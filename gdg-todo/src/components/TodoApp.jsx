@@ -9,6 +9,10 @@ export default function TodoApp() {
   });
 
   const [filter, setFilter] = useState("all");
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem("theme") || "light";
+  });
+
   const uniqueId = useId();
 
   const addTodo = (text) => {
@@ -41,7 +45,12 @@ export default function TodoApp() {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
-  // Apply filtering before rendring
+  // Save theme in localStorage + update body class
+  useEffect(() => {
+    document.body.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
   const filteredTodos = todos.filter((t) => {
     if (filter === "completed") return t.done;
     if (filter === "pending") return !t.done;
@@ -50,7 +59,16 @@ export default function TodoApp() {
 
   return (
     <div className="todo-app">
-      <h1>Todo App</h1>
+      <div className="header">
+        <h1>Todo App</h1>
+        <button
+          className="theme-toggle"
+          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+        >
+          {theme === "light" ? "🌙" : "☀️"}
+        </button>
+      </div>
+
       <TodoInput onAdd={addTodo} />
 
       <div className="todo-filters">
